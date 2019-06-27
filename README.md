@@ -1,5 +1,5 @@
 # Elementos
-Digital Signal Processing Elements -- COPPE/UFRJ 2019.2
+Digital Signal Processing -- COPPE/UFRJ 2019.2
 
 This is me trying to get an A in this course.
 
