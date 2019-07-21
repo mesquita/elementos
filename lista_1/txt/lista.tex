@@ -32,7 +32,7 @@
 
 
 \hmwkTitle{Lista\ de\ Exercícios \#1}
-\hmwkDueDate{Quinta,\ 04\ de\ Julho,\ 2019}
+\hmwkDueDate{Quinta,\ 11\ de\ Julho,\ 2019}
 \hmwkClass{Elementos de Processamento de 	Sinais}
 \hmwkClassTime{Segundas e Quartas: 08:00--10:00}
 \hmwkClassInstructor{Prof.\ Sergio Lima Netto}
@@ -105,18 +105,19 @@
 	\begin{equation}\label{eq:dft}
 	Y(m) = \sum_{l=0}^{L - 1} y(l) W^{li}_L, ~\textrm{para}~ 0 \leq m \leq L - 1,
 	\end{equation}
-	na Figura~\ref{fig:dft} temos a parte positiva $|Y(f)|$, onde $f$ é a frequência em Hz, que relaciona-se com $m$ da equação \eqref{eq:dft} por $f = f_{s}\frac{L-1}{L}m$. 
+	na Figura~\ref{fig:dft} temos a parte positiva $|Y(f)|$, onde $f$ é a frequência em Hz.
 
-	Para obtermos uma estimativa da frequência $f_{c}$ da senoide $x(n)$, analisar de forma visual e verificar que em $f = 80$~Hz encontra-se um pico de $|Y(f)|$.
+	Para obtermos uma estimativa da frequência $f_{c}$ da senoide $x(n)$, analisar de forma visual e verificar que em $f = 80$~Hz encontra-se um pico de $|Y(f)|$, portanto podemos dizer que a estimativa para a frequência da senoide é $\hat{f_c} = 80$~Hz.
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=0.7\linewidth]{figs/dft}
+		\includegraphics[width=0.65\linewidth]{figs/dft}
 		\caption{Módulo da DFT do sinal adicionado de ruído.}
 		\label{fig:dft}
 	\end{figure}
-	Para automatizarmos o processo, podemos construir um algoritmo que identifique o máximo de $|Y(f)|$ e nos retorne em qual $f$ ele ocorre. Para o exemplo ilustrado, a resposta foi $\hat{f_c} = 80.2$~Hz.
+
+	Para automatizarmos o processo, podemos construir um algoritmo que identifique o máximo de $|Y(f)|$ e nos retorne em qual $f$ ele ocorre. Para o exemplo ilustrado na Figura~\ref{fig:dft}, a resposta foi $\hat{f_c} = 80.2$~Hz.
 	
-	Porém este algoritmo nem sempre nos informará uma resposta correta. Quando o ganho $k$ do ruído aumenta perdemos a referência do pico, como podemos ver na Figura~\ref{fig:ruidera}. Portanto, a estimação da frequência por este meio não traz um resultado satisfatório quando o ruído tem uma amplitude tão grande quanto o pico do valor absoluto da DFT.
+	Porém este algoritmo nem sempre nos informará uma resposta correta. Quando o ganho $k$ do ruído aumenta, perdemos a referência do pico. Como podemos ver na Figura~\ref{fig:ruidera}, que exemplifica este fato com diferentes valores para o ganho $k$. Portanto, a estimação da frequência por este meio não traz um resultado satisfatório quando o ruído tem uma amplitude tão grande quanto o pico do valor absoluto da DFT.
 	
 	\begin{figure}[!h]
 		\centering
@@ -132,17 +133,19 @@
 		\label{fig:ruidera}
 	\end{figure}
 
-	Para resolvermos este problema, podemos fazer um pré-processamento no sinal recebido, como por exemplo fazer um realce do sinal desejado com um filtro levando em conta a estatística do ruído e a correlação do mesmo com o sinal. Depois do realce do sinal, podemos assim estimar sua a frequência da portadora.
+	Para resolvermos este problema, podemos fazer um pré-processamento no sinal recebido, como por exemplo fazer o realce do sinal desejado, com um filtro levando em conta a estatística do ruído e a correlação dele com o sinal. Depois do realce do sinal, podemos assim estimar a frequência da portadora.
 	
 \end{homeworkProblem}
 
 \cleardoublepage
 \begin{homeworkProblem}
 	
+	Esta questão tem como objetivo calcular a convolução no tempo e na frequência. Observar a necessidade de \textit{zero-padding} para o caso da frequência. \\
+	
 	Para este exercícios, vamos definir dois vetores:
 	\begin{equation*}
-	\xbf = [1 \quad 2]^{\Trm} \qquad
-	\hbf = [1 \quad 0]^{\Trm}
+	\xbf = [1 \quad 2]^{\Trm} \quad \textrm{e} \quad
+	\hbf = [1 \quad 0]^{\Trm}.
 	\end{equation*}
 	O tamanho os dois é de $L_{x} = L_{h} = 2$. Portanto, é de se esperar que a convolução entre os dois sinais tenha um tamanho $L_{y} = L_{x} + L_{h} - 1 = 3$.
 	
@@ -176,7 +179,7 @@
 	\end{equation*}
 	
 	Também podemos fazer essas mesmas operações no domínio da frequência. Primeiro, vamos explorar o caso em que não fazemos o \textit{zero-padding}.
-	Também analisaremos o caso em que temos $\xbf$ e $\hbf$ tais que:
+	Analisaremos o caso em que temos $\xbf$ e $\hbf$ tais que:
 	\begin{equation*}
 	\xbf = [1 \quad 2]^{\Trm} \qquad
 	\hbf = [1 \quad 0]^{\Trm}
@@ -231,7 +234,7 @@
 													2
 													\end{bmatrix}.
 	\end{equation*}
-	Ok, este resultado não é esperado para a convolução linear. Para atingirmos o resultado esperado para convolução linear é necessário fazermos o \textit{zero-padding}. Neste caso, como resultado da convolução linear tem que ter tamanho $L_{y} = 3$, os dois vetores vão ser acrescidos de $1$ zero no final. Portanto, teremos:
+	Ok, este resultado não é esperado para a convolução linear. Para atingirmos o resultado esperado para convolução linear é necessário o \textit{zero-padding}. Neste caso, como resultado da convolução linear tem que ter tamanho $L_{y} = 3$, os dois vetores vão ser acrescidos de $1$ zero no final. Portanto, teremos:
 	\begin{equation*}
 	\xbftil = [1 \quad 2 \quad 0]^{\Trm} \qquad
 	\hbftil = [1 \quad 0 \quad 0]^{\Trm}
@@ -246,7 +249,7 @@
 	1  & 1 & 1 \\ 
 	1 & -0.5-\jrm0.866 & -0.5+\jrm0.866 \\
 	1 & -0.5+\jrm0.866 & -0.5-\jrm0.866	
-	\end{bmatrix}
+	\end{bmatrix}.
 	\end{equation*}
 	
 	Então temos:
@@ -255,7 +258,7 @@
 	3 \\ 
 	-\jrm1.732 \\
 	+\jrm1.732
-	\end{bmatrix}
+	\end{bmatrix},
 	\end{equation*}
 
 	\begin{equation*}
@@ -273,15 +276,15 @@
 	+\jrm1.732
 	\end{bmatrix}.
 	\end{equation*}
-	Agora, para fazermos a IDFT, a matriz será:
+	Agora, para fazermos a IDFT, a matriz é
 	\begin{equation*}  \Wbf_{3}^{-1} = 
 	\begin{bmatrix} 
 	1/3  & 1/3 & 1/3 \\ 
 	1/3 & -1/6 +\jrm0.289 & -1/6-\jrm0.289 \\
 	1/3 & -1/6 -\jrm0.289 & -1/6+\jrm0.289	
-	\end{bmatrix}
+	\end{bmatrix}.
 	\end{equation*}
-	Portanto:
+	Por fim:
 	\begin{equation*}
 	\ybf = \ybftil = \Wbf_{3}^{-1} \tilde{\Ybf} = \begin{bmatrix} 
 	1 \\ 
@@ -290,8 +293,44 @@
 	\end{bmatrix}.
 	\end{equation*}	
 	
-	Agora vamos analisar o caso em que um dos sinais é muito maior do que o outro.
+	Agora vamos analisar o caso em que um dos sinais é muito maior do que o outro. Primeiro vamos fazer um \textit{overlap and add} manual. Depois vamos comparar tempos de processamentos entre as formas diferentes de cálculo da convolução.
 	
+	Primeiramente, vamos fazer um caso para os seguintes vetores:
+	
+	\begin{equation*}
+		\xbf = [1 \quad 2 \quad 3 \quad 4 \quad 5 \quad 7 \quad 19 \quad 0]^{\Trm} \quad \textrm{e} \quad
+		\hbf = [1 \quad 2]^{\Trm}.
+	\end{equation*}
+
+    O que queremos calcular é: $\ybf = \xbf * \hbf$, para isso faremos o processo a seguir.
+	
+	Dividindo $\xbf$ em blocos de dois elementos.
+	
+	\begin{equation*}
+		\xbf_1 = [1 \quad 2]^{\Trm}, \qquad
+		\xbf_2 = [3 \quad 4]^{\Trm}, \qquad
+		\xbf_3 = [5 \quad 7]^{\Trm} \quad \textrm{e} \quad
+		\xbf_4 = [19 \quad 0]^{\Trm}.
+	\end{equation*}
+	
+	Ao fazermos a convolução linear de cada bloco com $\hbf$, teremos $\ybf_{i} = \hbf * \xbf_{i},~i = 1, 2, 3$ e $4$.:
+	
+		\begin{equation*}
+		\ybf_1 = [1 \quad 1 \quad 4]^{\Trm}, \qquad
+		\ybf_2 = [3 \quad 10 \quad 8]^{\Trm}, \qquad
+		\ybf_3 = [5 \quad 17 \quad 14]^{\Trm}, \quad \textrm{e} \quad
+		\ybf_4 = [19 \quad 38 \quad 0]^{\Trm}.
+	\end{equation*}
+
+	Para o nosso problema original, o tamanho do resultado final deve ser: $L_{\ybf} = L_{\xbf} + L_{\hbf} - 1 = 8 + 2 - 1 = 9$. Vemos que $L_{\ybf_{1}} + L_{\ybf_{2}} + L_{\ybf_{3}} + L_{\ybf_{4}} = 12$. Para conseguirmos o resultado correto, temos que fazer o \textit{overlap and add} como mostrado pelo livro-texto, que é basicamente concatenar os vetores e somar com sobreposição de $L_{\hbf} - 1$ elementos, neste caso teremos um \textit{overlap} de 1 unidade.
+	Então o resultado final é:
+	\begin{equation*}
+		\ybf = [1 \quad 4 \quad 7 \quad 10 \quad 13 \quad 17 \quad 33 \quad 38 \quad 0]^{\Trm}. \qquad
+	\end{equation*}
+
+	Este caso foi para mostrar como o \textit{overlap and add} pode ser feito. Para vermos diferenças no tempo de processamento, realizei algumas medições no Python. Criei vetores $\xbf$ de tamanho $1024$ que convoluí com vetores $\hbf$ de tamanho 4, ambos com números gerados de forma aleatória. Realizei a operação $1$ milhão de vezes, e então calculei o tempo por operação. Para as mesmas configurações, fiz a operação de convolução de linear com \textit{zero-padding} e calculando a DFT e sua inversa. 
+	
+	Como para ambas eu mesmo fiz o código, o que significa que ele não é otimizado, os tempos por operação tornam-se bem altos. Tivemos $10$~milissegundos para a operação com \textit{overlap and add} e $5$~milissegundos para cada operação com a matriz de DFT. Acredito que pela matriz de DFT foi mais rápido porque o Python tem jeitos espertos de calcular essa inversa por conta da estrutura da matriz de DFT.
 \end{homeworkProblem}
 
 \end{document}
