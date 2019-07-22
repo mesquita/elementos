@@ -32,7 +32,7 @@
 
 
 \hmwkTitle{Lista\ de\ Exercícios \#2}
-\hmwkDueDate{Terça,\ 23\ de\ Julho,\ 2019}
+\hmwkDueDate{Segunda,\ 22\ de\ Julho,\ 2019}
 \hmwkClass{Elementos de Processamento de 	Sinais}
 \hmwkClassTime{Segundas e Quartas: 08:00--10:00}
 \hmwkClassInstructor{Prof.\ Sergio Lima Netto}
@@ -109,7 +109,7 @@ Agora para o caso em que desejamos fase linear, nossa resposta ao impulso terá 
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.6\linewidth]{figs/ideal}
+	\includegraphics[width=0.55\linewidth]{figs/ideal}
 	\caption{Resposta em frequência do filtro desejado.}
 	\label{fig:ideal}
 \end{figure}
@@ -118,7 +118,7 @@ Agora para o caso em que desejamos fase linear, nossa resposta ao impulso terá 
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.6\linewidth]{figs/ideal_amostrado}
+	\includegraphics[width=0.55\linewidth]{figs/ideal_amostrado}
 	\caption{Resposta em frequência do filtro desejado.}
 	\label{fig:ideal_amostrado}
 \end{figure}
@@ -132,11 +132,11 @@ Agora para o caso em que desejamos fase linear, nossa resposta ao impulso terá 
 	A(k) &= A(M-k+1), \, \, \textrm{para} \, \, 1 \leq k \leq \frac{M}{2}.
 \end{align*}
 Entõa a response ao impulso é dada por 
-\begin{equation}
+\begin{equation}\label{eq:hn}
 h(n) = \frac{1}{M+1}\left[A(0) + 2\sum_{k=1}^{M/2}(-1)^{k}A(k)\cos\frac{\pi k(1+ 2n)}{M+1}\right]
 \end{equation}
 
-Realizando os calculos, calculamos a resposta ao impulso que é representada na Figura~\ref{fig:freq} por sua resposta em magnitude (em azul) e sua fase (em verde). Podemos ver que a mesma tem fase linear na banda passante.
+Realizando os calculos pela equação~\eqref{eq:hn}, chegamos a resposta ao impulso, que é representada na Figura~\ref{fig:freq} por sua resposta em magnitude (em azul) e sua fase (em verde). Podemos ver que a mesma tem fase linear na banda passante.
 
 \begin{figure}[!ht]
 	\centering
@@ -146,6 +146,9 @@ Realizando os calculos, calculamos a resposta ao impulso que é representada na 
 \end{figure}
 
 \end{homeworkSection}
+
+
+
 \end{homeworkProblem}
 
 \end{document}
