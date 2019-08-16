@@ -31,8 +31,8 @@
 \usepackage{myMacros}
 
 
-\hmwkTitle{Lista\ de\ Exercícios \#5}
-\hmwkDueDate{Segunda,\ 07\ de\ Julho,\ 2019}
+\hmwkTitle{Lista\ de\ Exercícios \#6}
+\hmwkDueDate{Quinta,\ 15\ de\ Julho,\ 2019}
 \hmwkClass{Elementos de Processamento de 	Sinais}
 \hmwkClassTime{Segundas e Quartas: 08:00--10:00}
 \hmwkClassInstructor{Prof.\ Sergio Lima Netto}
@@ -63,13 +63,9 @@
 
 
 \begin{homeworkProblem}
-	\paragraph{Exercício} Projetar um filtro adaptativo atráves do algoritmo LMS para a aplicação de identificação de sistemas.
+	\paragraph{Exercício} Projetar um filtro adaptativo atráves do algoritmo RLS [1] para a aplicação de identificação de sistemas. 
 	
-	\paragraph{O algoritmo} No LMS, os coeficientes $\wbf(n)$ são atualizados através da seguinte equação:
-	\begin{equation}
-		\wbf(n+1) = \wbf(n) + 2\mu e(n)\xbf(n),
-	\end{equation}
-	onde $e(n) = d(n) - y(n)$, é o erro entre o sinal de referência e a saída do filtro adaptativo, e $\xbf(n)$ é o vetor formado pelo sinal de entrada. 
+	\paragraph{O problema}
 	
 	A Figura~\ref{fig:sis} apresenta o diagrama de blocos do sistema a ser implementado. O objetivo é identificar os coeficientes de um sistema desconhecido através de um filtro adaptativo. Faremos simulações com diferentes cenários. 
 	\begin{figure}[!ht]
@@ -78,48 +74,47 @@
 		\caption{Sistema para identificação de sistema.}
 		\label{fig:sis}
 	\end{figure}
+
+	Neste caso, $x(n)$ é o sinal de entrada, $d(n)$ é o sinal desejado, $y(n)$ é a saída do filtro adaptativo e $e(n)$ é o erro entre a saída do filtro adaptativo e o sinal desejado.
 	
 	\paragraph{Simulações}
-	As simulações representarão três cenários diferentes, o caso em que o número de coeficientes do filtro adaptativo é o mesmo do sistema desconhecido, em outras palavras, acertamos a ordem do sistema desconhecido. Teremos também o caso em que o filtro adaptativo tem ordem superior ao do sistema desconhecido, e o caso contrário, em que o filtro adaptativo tem menos coeficientes que o sistema desconhecido. \\
-	
-	Para todas as simulações foram usados os seguintes parâmetros (a não ser quando explícita a mudança de um dos parâmetros padrões): \\
-	
-	\begin{tabular}[!ht]{|c|c|}
-		\hline 
-		\textbf{Parâmetro} & \textbf{Valor} \\ 
-		\hline 
-		Rodadas & 100 \\ 
-		\hline 
-		Iterações & 3000 \\ 
-		\hline 
-		$\mu$ & 0.025 \\ 
-		\hline 
-	\end{tabular}  \\ \\
-	
-	Para o primeiro caso, o sistema desconhecido e o filtro adaptativo tem a mesma ordem. No caso, os dois tem ordem 3. A Figura~\ref{fig:mselms} mostra o MSE (em dB) para diferentes valores de $\mu$. 
+	Primeiro, testei a convergência do algoritmo para diferentes valores de $\lambda$ (ver [1] para conferir a dependência $\lambda$ no algoritmo). Para esta, o sistema desconhecido e o filtro adaptativo tem a mesma ordem. No caso, os dois tem ordem 2. A Figura~\ref{fig:mselms} mostra o MSE (em dB) para diferentes valores de $\mu$. Neste caso foram feitas $50$ rodadas do algoritmo com $800$ iterações cada.
 	
 	\begin{figure}[!ht]
 		\centering
-		\includegraphics[width=0.6\linewidth]{figs/mse_lms}
-		\caption{Curva de MSE (em dB) do algoritmo LMS.}
+		\includegraphics[width=0.75\linewidth]{figs/mse_rls}
+		\caption{Curva de MSE (em dB) do algoritmo RLS.}
 		\label{fig:mselms}
 	\end{figure}
 	
-	\pagebreak
+	É interessante ver que a pequena mudança entre $\lambda = 0.99$ e $\lambda = 0.98$ faz o algoritmo convergir em muito menos iterações. Também é válido notar o quão rápido, em termos de número de iterações, o algoritmo com $\lambda = 0.4$ converge, mas para um patamar de erro maior do que o dos outros. \\
 	
-	No segundo caso o sistema desconhecido tem ordem superior ao do filtro adaptativo. Neste caso, se o sistema desconhecido tem $M$ coeficientes, o filtro adaptativo vai aprender os $N$ primeiros coeficientes do sistema desconhecido, onde $N$ ($M > N$) é o número de coeficientes do filtro adaptativo. A curva de MSE é muito semelhante a da Figura~\ref{fig:mselms}. 
-	
-	O terceiro caso é mais interessante que o segundo. Neste caso, o sistema desconhecido tem menos coeficientes do que o filtro adaptativo. Então, o filtro adaptativo vai ter os $N$ primeiros coeficientes iguais aos do sistema desconhecido (após a convergência), que tem $M$ $(N > M)$ coeficientes, o resto será tenderá a zero (serem nulos). 	Podemos ver a dinâmica dos coeficientes do filtroa adaptativo na Figura~\ref{fig:coef}. Para este exemplo, o filtro adaptativo tem $6$~coeficientes, enquanto o sistema desconhecido tem $4$~coeficientes. O que é interessante na Figura~\ref{fig:coef} é ver que 4 coeficientes convergem para os valores do sistema desconhecido, enquanto dois sobressalentes vão a zero.
+	Agora vamos a convergência dos coeficientes, no caso em que $\lambda = 0.98$ e $\lambda = 0.4$. O coeficientes do sistema a ser identificado são $\wbf_{o}[0] = 0.25$ e $\wbf_{o}[0] = -2$, marcados com uma linha horizontal preta. Na Figura~\ref{fig:coef} temos a evolução a cada iteração dos coeficientes para os $\lambda$ supracitados. Coloquei uma figura bem grande para vermos no detalhe. 
 	
 	\begin{figure}[!ht]
 	\centering
-	\includegraphics[width=0.5\linewidth]{figs/coeficientes}
+	\includegraphics[width=\linewidth]{figs/coeficientes}
 	\caption{Variação dos coeficientes do filtro adaptativo.}
 	\label{fig:coef}
 	\end{figure}
 	
-	Podemos concluir então que é muito melhor ``errar para mais'' o número de coeficientes do seu filtro adaptativo.
-
+	Fica evidente a convergência muito mais rápida para $\lambda = 0.4$, porém com um erro superior em relação ao $\lambda = 0.98$, como já pudia ser visto na figura anterior.
+	\pagebreak
+	
+	Também fiz um teste acrescentando ruído no desejado, como se comporta o RLS. A Figura~\ref{fig:ruido} mostra o comportamento para diferentes valores de $a$, onde $a$ é a amplitude do ruído.
+	
+	\begin{figure}[!ht]
+		\centering
+		\includegraphics[width=\linewidth]{figs/ruidos}
+		\caption{Curvas de MSE (em dB) do algoritmo RLS para diferentes valores de ruído.}
+		\label{fig:ruido}
+	\end{figure}
+	
+	Aqui é interessante ver o comportamento do MSE com o acréscimo do ruído, tendo valores de MSE obviamente cada vez maiores para maiores amplitudes do ruído aditivo.
+	
 \end{homeworkProblem}
+
+\section*{Referências}
+[1] P. S. R. Diniz, Adaptive Filtering. Boston, MA: Springer US, 2013.
 
 \end{document}
